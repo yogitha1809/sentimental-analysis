@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Predict - Sentiment AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='predict.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='background.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    {% include 'sidebar.html' %}
+
+    <div class="main-content">
+
+        {% if 'username' in session %}
+        <div class="form-card">
+
+            <h2 class="form-heading">Predict Sentiment</h2>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            <form method="POST">
+                <textarea name="text" rows="5" placeholder="Type your text here...">{{ input_text }}</textarea>
+                <button type="submit">Predict</button>
+            </form>
+
+            {% if prediction %}
+            <div class="result {{ prediction }}">
+                <p class="label">
+                    Prediction:
+                    <span class="badge {{ prediction }}">{{ prediction|capitalize }}</span>
+                </p>
+
+                {% if proba %}
+                <p class="confidence">
+                    Confidence:
+                    <strong>{{ (proba * 100)|round(2) }}%</strong>
+                </p>
+                {% endif %}
+            </div>
+            {% endif %}
+
+        </div>
+
+        {% else %}
+        <div class="guest-message">
+            <p>⚠ You must be logged in to access this page.</p>
+            <a href="{{ url_for('login') }}" class="btn-login">Login Here</a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>

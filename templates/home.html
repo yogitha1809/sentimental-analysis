@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentiment Analysis Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='background.css') }}">
+</head>
+<body>
+
+{% include 'sidebar.html' %}
+
+<div class="main-content">
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- Hero Section -->
+    <div class="hero">
+        {% if logged_in %}
+            <h1>Welcome, {{ session['username'] }}!</h1>
+            <p>Analyze product reviews and predict sentiments using AI-powered classification.</p>
+            <a href="{{ url_for('predict') }}" class="btn-start">Go to Predict</a>
+            <a href="{{ url_for('history') }}" class="btn-start">View History</a>
+        {% else %}
+            <h1>Welcome to Sentiment AI</h1>
+            <p>Please login to start analyzing product reviews and predicting sentiments.</p>
+            <a href="{{ url_for('login') }}" class="btn-start">Login to Start</a>
+            <a href="{{ url_for('predict') }}" class="btn-start" onclick="alert('⚠ Please login first!'); return false;">Predict</a>
+            <a href="{{ url_for('history') }}" class="btn-start" onclick="alert('⚠ Please login first!'); return false;">History</a>
+        {% endif %}
+    </div>
+
+    <!-- Recent Predictions Section (always visible) -->
+    <div class="recent-section">
+        <h2>Recent Predictions</h2>
+        {% if recent_predictions %}
+            <div class="cards">
+                {% for pred in recent_predictions %}
+                <div class="card">
+                    <p class="text">{{ pred.input_text }}</p>
+                    <span class="label {% if pred.predicted_label=='positive' %}positive{% elif pred.predicted_label=='negative' %}negative{% else %}neutral{% endif %}">
+                        {{ pred.predicted_label|capitalize }}
+                    </span>
+                    <p class="date">{{ pred.created_at }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-predictions">No predictions yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>

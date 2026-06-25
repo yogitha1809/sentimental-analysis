@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Sentiment AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='background.css') }}">
+</head>
+<body>
+
+<div class="container">
+    {% include 'sidebar.html' %}
+
+    <div class="main-content">
+        <div class="auth-container">
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            <!-- Login Card -->
+            <div class="form-card">
+                <h2 class="form-heading">Login</h2>
+                <form method="POST">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" name="username" placeholder="Enter your username" required>
+
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" placeholder="Enter your password" required>
+
+                    <button type="submit">Login</button>
+                </form>
+
+                <p class="register-link">
+                    Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

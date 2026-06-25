@@ -1,0 +1,45 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: url("/static/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: #fff; /* default text color for better contrast */
+}
+
+/* Main content transparent */
+.main-content {
+    margin-left: 220px;
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.4); /* semi-transparent black */
+    border-radius: 10px;
+}
+
+/* Hero section transparent */
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+    background: rgba(0, 0, 0, 0.5); /* semi-transparent */
+    padding: 30px 20px;
+    border-radius: 10px;
+}
+
+/* Cards semi-transparent */
+.card {
+    background: rgba(255, 255, 255, 0.2); /* light transparent */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    color: #fff; /* text visible over bg */
+}
+
+/* No predictions message */
+.no-predictions {
+    text-align: center;
+    font-style: italic;
+    color: #fff;
+}
