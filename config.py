@@ -15,8 +15,8 @@ try:
     conn.commit()
     cursor.close()
     conn.close()
-    print("✅ Insert successful")
+    print("Insert successful")
 except Exception as e:
-    print("❌ Database error:", e)
+    print("Database error:", e)
     import traceback
     traceback.print_exc()

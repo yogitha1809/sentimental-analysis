@@ -36,7 +36,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if "username" not in session:
-            flash("⚠ Please login to access this page!", "error")
+            flash("Please login to access this page!", "error")
             return redirect(url_for("login"))
         return f(*args, **kwargs)
     return decorated_function
@@ -103,7 +103,7 @@ def predict():
     if request.method == "POST":
         input_text = request.form.get("text", "").strip()
         if not input_text:
-            flash("⚠ Please enter some text!", "error")
+            flash("Please enter some text!", "error")
             return render_template("predict.html", input_text=input_text)
 
         cleaned_text = clean_text(input_text)
@@ -120,9 +120,9 @@ def predict():
                 )
                 conn.commit()
                 cursor.close()
-                flash("✅ Prediction saved successfully!", "success")
+                flash("Prediction saved successfully!", "success")
             except Exception as e:
-                flash(f"❌ Error saving prediction: {e}", "error")
+                flash(f"Error saving prediction: {e}", "error")
             finally:
                 conn.close()
 
@@ -143,7 +143,7 @@ def history():
             predictions = cursor.fetchall()
             cursor.close()
         except Exception as e:
-            flash(f"❌ Error fetching history: {e}", "error")
+            flash(f"Error fetching history: {e}", "error")
         finally:
             conn.close()
     return render_template("history.html", predictions=predictions)
@@ -159,9 +159,9 @@ def clear_history():
             cursor.execute("DELETE FROM predictions")
             conn.commit()
             cursor.close()
-            flash("✅ Your history has been cleared.", "success")
+            flash(" Your history has been cleared.", "success")
         except Exception as e:
-            flash(f"❌ Error clearing history: {e}", "error")
+            flash(f" Error clearing history: {e}", "error")
         finally:
             conn.close()
     return redirect(url_for("history"))
@@ -185,17 +185,17 @@ def login():
                 user = cursor.fetchone()
                 cursor.close()
             except Exception as e:
-                flash(f"❌ Database error: {e}", "error")
+                flash(f" Database error: {e}", "error")
             finally:
                 conn.close()
 
         if user and check_password_hash(user["password"], password):
             session.permanent = True
             session["username"] = user["username"]
-            flash("✅ Login successful!", "success")
+            flash("Login successful!", "success")
             return redirect(url_for("home"))
         else:
-            flash("❌ Invalid username or password!", "error")
+            flash(" Invalid username or password!", "error")
 
     return render_template("login.html")
 
@@ -211,7 +211,7 @@ def register():
         password = request.form["password"].strip()
 
         if not username or not email or not password:
-            flash("⚠ Please fill all fields!", "error")
+            flash("Please fill all fields!", "error")
             return render_template("register.html")
 
         hashed_password = generate_password_hash(password)
@@ -226,12 +226,12 @@ def register():
                 )
                 conn.commit()
                 cursor.close()
-                flash("✅ Registration successful! Please login.", "success")
+                flash("Registration successful! Please login.", "success")
                 return redirect(url_for("login"))
             except mysql.connector.IntegrityError:
-                flash("❌ Username already exists!", "error")
+                flash(" Username already exists!", "error")
             except Exception as e:
-                flash(f"❌ Error during registration: {e}", "error")
+                flash(f" Error during registration: {e}", "error")
             finally:
                 conn.close()
 
@@ -242,7 +242,7 @@ def register():
 @login_required
 def logout():
     session.pop("username", None)
-    flash("✅ You have been logged out.", "success")
+    flash(" You have been logged out.", "success")
     return redirect(url_for("login"))
 
 # ---------------- Run App ----------------
